@@ -1,0 +1,13 @@
+---
+
+- name: enable icingadb services
+  service:
+    name: icingadb
+    enabled: true
+
+- name: ensure icingadb are started
+  service:
+    name: icingadb
+    state: started
+
+...

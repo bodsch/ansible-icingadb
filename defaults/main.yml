@@ -1,0 +1,10 @@
+---
+
+icingadb_user: icingadb
+icingadb_group: icingadb
+
+icingadb_database: {}
+icingadb_redis: {}
+icingadb_logging: {}
+
+...

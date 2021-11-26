@@ -1,0 +1,68 @@
+# This is the configuration file for Icinga DB.
+
+database:
+  host: {{ icingadb_database.host }}
+  port: {{ icingadb_database.port }}
+  database: {{ icingadb_database.database }}
+  user: {{ icingadb_database.user }}
+  password: {{ icingadb_database.password }}
+
+redis:
+  address: {{ icingadb_redis.address }}
+
+{% set _valid_loglevel = ['fatal', 'error', 'warn', 'info', 'debug'] %}
+
+logging:
+  # Default logging level. Can be set to 'fatal', 'error', 'warn', 'info' or 'debug'.
+  # If not set, defaults to 'info'.
+{% if icingadb_logging.level in _valid_loglevel %}
+  level: {{ icingadb_logging.level }}
+{% else %}
+  level: info
+{% endif %}
+
+  # Logging output. Can be set to 'console' (stderr) or 'systemd-journald'.
+  # If not set, logs to systemd-journald when running under systemd, otherwise stderr.
+{% if icingadb_logging.output is defined and icingadb_logging.output in ['console', 'systemd-journald'] %}
+  output: {{ icingadb_logging.output }}
+{% endif %}
+
+  # Interval for periodic logging defined as duration string.
+  # A duration string is a sequence of decimal numbers and a unit suffix, such as "20s".
+  # Valid units are "ms", "s", "m", "h".
+  # Defaults to "20s".
+{% if icingadb_logging.interval is defined and icingadb_logging.interval | length > 0 %}
+  interval: {{ icingadb_logging.interval }}
+{% endif %}
+
+  # Map of component-logging level pairs to define a different log level than the default value for each component.
+{% if icingadb_logging.options is defined and icingadb_logging.options | length > 0 %}
+  options:
+{% if icingadb_logging.options.database is defined and icingadb_logging.options.database in _valid_loglevel %}
+    database: {{ icingadb_logging.options.database }}
+{% endif %}
+{% if icingadb_logging.options.redis is defined and icingadb_logging.options.redis in _valid_loglevel %}
+    redis: {{ icingadb_logging.options.redis }}
+{% endif %}
+{% if icingadb_logging.options.heartbeat is defined and icingadb_logging.options.heartbeat in _valid_loglevel %}
+    heartbeat: {{ icingadb_logging.options.heartbeat }}
+{% endif %}
+{% if icingadb_logging.options.high_availability is defined and icingadb_logging.options.high_availability in _valid_loglevel %}
+    high-availability: {{ icingadb_logging.options.high_availability }}
+{% endif %}
+{% if icingadb_logging.options.config_sync is defined and icingadb_logging.options.config_sync in _valid_loglevel %}
+    config-sync: {{ icingadb_logging.options.config_sync }}
+{% endif %}
+{% if icingadb_logging.options.history_sync is defined and icingadb_logging.options.history_sync in _valid_loglevel %}
+    history-sync: {{ icingadb_logging.options.history_sync }}
+{% endif %}
+{% if icingadb_logging.options.runtime_updates is defined and icingadb_logging.options.runtime_updates in _valid_loglevel %}
+    runtime-updates: {{ icingadb_logging.options.runtime_updates }}
+{% endif %}
+{% if icingadb_logging.options.overdue_sync is defined and icingadb_logging.options.overdue_sync in _valid_loglevel %}
+    overdue-sync: {{ icingadb_logging.options.overdue_sync }}
+{% endif %}
+{% if icingadb_logging.options.dump_signals is defined and icingadb_logging.options.dump_signals in _valid_loglevel %}
+    dump-signals: {{ icingadb_logging.options.dump_signals }}
+{% endif %}
+{% endif %}

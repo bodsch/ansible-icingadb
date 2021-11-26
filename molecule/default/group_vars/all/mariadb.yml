@@ -1,0 +1,26 @@
+---
+
+mariadb_root_password: Y5FZfKXzCeOWGf4kBOiFSp6Il
+
+mariadb_root_password_update: true
+
+mariadb_databases:
+  - name: "{{ icingadb_database.database }}"
+
+mariadb_users:
+  - name: "{{ icingadb_database.user }}"
+    host: "%"
+    password: "{{ icingadb_database.password }}"
+    priv: "{{ icingadb_database.database }}.*:ALL"
+    encrypted: false
+
+mariadb_config_mysqld:
+  bind-address: 0.0.0.0
+  socket: "{{ mariadb_socket }}"
+  skip-external-locking:
+  skip-name-resolve: 1
+  performance_schema: 1
+  expire_logs_days: 2
+  max_connections: 20
+
+...

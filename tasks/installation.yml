@@ -1,0 +1,44 @@
+---
+
+- name: detect installed icingadb
+  block:
+
+    - name: detect if icingadb exists
+      stat:
+        path: /usr/sbin/icingadb
+      register: icingadb_binary_file
+
+    - name: define icingadb_installed
+      set_fact:
+        icingadb_installed: "{{ icingadb_binary_file.stat.exists }}"
+
+- block:
+    - name: create policy-rc.d
+      copy:
+        dest: /usr/sbin/policy-rc.d
+        content: |
+          #!/bin/sh
+          exit 101
+        mode: 0755
+
+    - name: install icingadb packages
+      package:
+        name: "{{ icingadb_packages }}"
+        state: present
+      register: icingadb_installer
+
+    - name: do facts module to get latest information
+      setup:
+
+    - name: remove policy-rc.d
+      file:
+        path: /usr/sbin/policy-rc.d
+        state: absent
+  when:
+    - not icingadb_installed
+    - ansible_os_family | lower != 'archlinux'
+
+- name: re-read ansible facts
+  setup:
+
+...

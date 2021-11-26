@@ -1,0 +1,8 @@
+---
+
+- name: restart icingadb
+  service:
+    name: icingadb
+    state: restarted
+
+...

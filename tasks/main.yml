@@ -1,0 +1,23 @@
+---
+
+- name: prepare
+  include_tasks: prepare.yml
+  tags:
+    - icingadb
+
+- name: installation
+  include_tasks: installation.yml
+  tags:
+    - icingadb
+
+- name: configure
+  include_tasks: configure.yml
+  tags:
+    - icingadb
+
+- name: service
+  include_tasks: service.yml
+  tags:
+    - icingadb
+
+...

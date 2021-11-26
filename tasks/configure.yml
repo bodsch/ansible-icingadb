@@ -1,0 +1,55 @@
+---
+
+- name: create icingadb configuration
+  template:
+    src: etc/icingadb/config.yml.j2
+    dest: /etc/icingadb/config.yml
+    owner: "{{ icingadb_user }}"
+    group: "{{ icingadb_group }}"
+    mode: 0640
+    backup: true
+  notify:
+    - restart icingadb
+
+- name: ensure table_schema is created
+  mysql_schema:
+    login_host: "{{ icingadb_database.host }}"
+    login_user: "{{ icingadb_database.user }}"
+    login_password: "{{ icingadb_database.password }}"
+    table_schema: "{{ icingadb_database.database }}"
+  # no_log: true
+  register: mysql_icingawebdb_schema
+  when:
+    - icingadb_database is defined
+    - icingadb_database.host is defined
+    - icingadb_database.user is defined
+    - icingadb_database.password is defined
+    - icingadb_database.database is defined
+
+- block:
+    - name: import database schema
+      mysql_db:
+        state: import
+        login_host: "{{ icingadb_database.host }}"
+        login_user: "{{ icingadb_database.user }}"
+        login_password: "{{ icingadb_database.password }}"
+        config_file: ''
+        name: "{{ icingadb_database.database }}"
+        target: '{{ icingadb_install_dir }}/schema/mysql/schema.sql'
+      no_log: true
+      register: icingawebdb_database_schema
+
+    - name: error
+      fail:
+        msg:
+          - "ERROR: {{ icingawebdb_database_schema }}"
+      when:
+        - mysql_icingawebdb_schema is defined
+        - mysql_icingawebdb_schema.failed is defined
+        - mysql_icingawebdb_schema.failed
+  when:
+    - mysql_icingawebdb_schema is defined
+    - mysql_icingawebdb_schema.exists is defined
+    - not mysql_icingawebdb_schema.exists
+
+...
