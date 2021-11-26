@@ -1,0 +1,8 @@
+---
+
+icingadb_dependencies:
+  - mariadb
+  - iproute
+  - python3-PyMySQL
+
+...

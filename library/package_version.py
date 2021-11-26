@@ -200,8 +200,6 @@ class PackageVersion(object):
         pacman_bin = self.module.get_bin_path('pacman', True)
 
         # pacman --query --search php*
-
-        results = []
         args = []
         args.append(pacman_bin)
 

@@ -100,6 +100,11 @@
     update_cache: true
 
 
+- name: install requirements
+  package:
+    name: "{{ icingadb_dependencies }}"
+    state: present
+
 - name: merge icingadb database configuration between defaults and custom
   set_fact:
     icingadb_database: "{{ icingadb_defaults_database |

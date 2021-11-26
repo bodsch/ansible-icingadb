@@ -6,10 +6,11 @@
 ## Requirements & Dependencies
 
 - redis version > 6
+- mariadb / mysql
 
 ### supported operating systems
 
-- ArchLinux
+- ArchLinux (planned)
 - Debian 10 / 11
 - Ubuntu 20.04
 - CentOS 8
