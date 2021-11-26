@@ -25,9 +25,9 @@ icingadb_defaults_logging:
   output: ''
   interval: "20s"
   options:
-    database: debug
-    redis: debug
-    heartbeat: debug
+    database: fatal
+    redis: fatal
+    heartbeat: fatal
     high_availability: fatal
     config_sync: fatal
     history_sync: fatal
