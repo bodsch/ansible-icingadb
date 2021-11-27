@@ -13,6 +13,17 @@
         icingadb_installed: "{{ icingadb_binary_file.stat.exists }}"
 
 - block:
+    - name: install icingadb package via aur
+      become: true
+      become_user: aur_builder
+      aur:
+        state: present
+        name: icingadb
+        repository: "{{ icingadb_repo_archlinux }}"
+  when:
+    - ansible_os_family | lower == 'archlinux'
+
+- block:
     - name: create policy-rc.d
       copy:
         dest: /usr/sbin/policy-rc.d

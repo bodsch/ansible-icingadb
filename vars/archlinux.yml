@@ -1,3 +1,9 @@
 ---
 
+icingadb_dependencies:
+  - python-pymysql
+  - mariadb-clients
+  - mariadb-libs
+  - iproute2
+
 ...

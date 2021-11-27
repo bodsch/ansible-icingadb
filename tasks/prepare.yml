@@ -33,6 +33,42 @@
     - ansible_os_family | lower == 'debian'
 
 # ----------------------------------------------------------------------------------
+# arch-linux based
+#
+- block:
+    - name: install build tools
+      package:
+        name:
+          - base-devel
+          # - cmake
+        state: present
+
+    - name: create sudo rules for aur_builder
+      copy:
+        content: '%aur_builder ALL=(ALL) NOPASSWD: ALL'
+        dest: /etc/sudoers.d/aur
+        mode: 0640
+        validate: visudo -cf %s
+
+    - name: create build group
+      group:
+        name: aur_builder
+
+    - name: create build user
+      user:
+        name: aur_builder
+        group: aur_builder
+
+    - name: import gpg key
+      become: true
+      become_user: aur_builder
+      command: |
+        gpg --recv-keys C6E319C334410682
+
+      #F51A91A5EE001AA5D77D53C4C6E319C334410682
+
+  when:
+    - ansible_os_family | lower == 'archlinux'
 
 # debian based
 #
@@ -49,7 +85,6 @@
         mode: 0644
   when:
     - ansible_os_family | lower == 'debian'
-    #- icinga2_use_external_repo | bool
 
 # redhat based
 #
@@ -88,8 +123,6 @@
         metadata_expire: 1d
   when:
     - ansible_os_family | lower == 'redhat'
-    #- icinga2_use_external_repo | bool
-
 # ----------------------------------------------------------------------------------
 
 - name: get latest system information

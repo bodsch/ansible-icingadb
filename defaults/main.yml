@@ -7,4 +7,6 @@ icingadb_database: {}
 icingadb_redis: {}
 icingadb_logging: {}
 
+icingadb_repo_archlinux: https://github.com/bodsch/aur-icingadb.git
+
 ...
