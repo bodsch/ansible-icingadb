@@ -10,7 +10,7 @@
 
 ### supported operating systems
 
-- ArchLinux (planned)
+- ArchLinux
 - Debian 10 / 11
 - Ubuntu 20.04
 - CentOS 8
