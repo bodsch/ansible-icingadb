@@ -20,6 +20,7 @@ platforms:
     pre_build_image: true
     volumes:
       - /sys/fs/cgroup:/sys/fs/cgroup:ro
+    network_mode: default
     docker_networks:
       - name: icinga_default
         ipam_config:
