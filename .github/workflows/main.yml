@@ -46,7 +46,8 @@ jobs:
         python-version:
           - '3.9'
         ansible-version:
-          - '2.10'
+          - '3.4.0'
+          - '5.1.0'
 
     steps:
       - name: check out the codebase.
@@ -96,7 +97,8 @@ jobs:
         python-version:
           - '3.9'
         ansible-version:
-          - '2.10'
+          - '3.4.0'
+          - '5.1.0'
 
     steps:
       - name: check out the codebase.
@@ -145,7 +147,8 @@ jobs:
         python-version:
           - '3.9'
         ansible-version:
-          - '2.10'
+          - '3.4.0'
+          - '5.1.0'
 
     steps:
       - name: check out the codebase.
