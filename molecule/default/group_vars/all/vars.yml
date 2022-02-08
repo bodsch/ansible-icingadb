@@ -7,8 +7,8 @@ icingadb_database:
   user: icingadb
   password: icingadb
 
-icingadb_defaults_redis:
-  address: 127.0.0.1:6379
+icingadb_redis:
+  address: "127.0.0.1:{{ redis_network_port }}"
 
 icingadb_logging:
   level: debug
