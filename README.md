@@ -1,9 +1,9 @@
 
 # Ansible Role:  `icingadb`
 
-This role will fully configure and install [dockerd](https://www.docker.com/).
+This role will fully configure and install [icingadb](https://icinga.com/docs/icinga-db).
 
-[![GitHub Workflow Status](https://img.shields.io/github/workflow/status/bodsch/ansible-icinga2/CI)][ci]
+[![GitHub Workflow Status](https://img.shields.io/github/workflow/status/bodsch/ansible-icingadb/CI)][ci]
 [![GitHub issues](https://img.shields.io/github/issues/bodsch/ansible-icingadb)][issues]
 [![GitHub release (latest by date)](https://img.shields.io/github/v/release/bodsch/ansible-icingadb)][releases]
 
@@ -25,7 +25,6 @@ This role will fully configure and install [dockerd](https://www.docker.com/).
     - Debian 10 / 11
     - Ubuntu 20.04
 * RedHat based
-    - CentOS 8 (**not longer supported**)
     - Alma Linux 8
     - Rocky Linux 8
     - OracleLinux 8
@@ -41,7 +40,7 @@ icingadb_redis: {}
 icingadb_logging: {}
 ```
 
-### icingadb_database
+### `icingadb_database`
 
 ```yaml
 icingadb_database:
@@ -51,7 +50,8 @@ icingadb_database:
   user: icingadb
   password: icingadb
 ```
-### icingadb_redis
+
+### `icingadb_redis`
 
 ```yaml
 
@@ -59,14 +59,16 @@ icingadb_defaults_redis:
   address: 127.0.0.1:6379
 ```
 
-### icingadb_logging
+### `icingadb_logging`
 
 #### `level`
+
 Default logging level. Can be set to `fatal`, `error`, `warn`, `info` or `debug`.
 
 If not set, defaults to `info`.
 
 #### `output`
+
 Logging output. Can be set to `console` (stderr) or `systemd-journald`.
 
 If not set, logs to systemd-journald when running under systemd, otherwise stderr.
@@ -103,8 +105,6 @@ icingadb_logging:
     overdue-sync: fatal
     dump-signals: fatal
 ```
-
-
 
 
 ## Contribution
