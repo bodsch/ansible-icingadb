@@ -4,5 +4,6 @@ icingadb_dependencies:
   - mariadb-client
   - iproute2
   - python3-pymysql
+  - gnupg
 
 ...

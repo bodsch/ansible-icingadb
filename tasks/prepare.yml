@@ -32,6 +32,11 @@
   when:
     - ansible_os_family | lower == 'debian'
 
+- name: install requirements
+  package:
+    name: "{{ icingadb_dependencies }}"
+    state: present
+
 # ----------------------------------------------------------------------------------
 # arch-linux based
 #
@@ -131,12 +136,6 @@
 - name: update package cache
   package:
     update_cache: true
-
-
-- name: install requirements
-  package:
-    name: "{{ icingadb_dependencies }}"
-    state: present
 
 - name: merge icingadb database configuration between defaults and custom
   set_fact:
