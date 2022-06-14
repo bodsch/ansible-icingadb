@@ -1,14 +1,24 @@
 # This is the configuration file for Icinga DB.
 
 database:
+  type: mysql
   host: localhost
   port: 3306
   database: icingadb
   user: icingadb
   password: icingadb
 
+# Connection configuration for the Redis where Icinga writes its configuration, state and history.
+# This is the same connection as configured in the 'icingadb' feature of the corresponding Icinga node.
+# High availability setups require a dedicated Redis server per Icinga node and
+# therefore a dedicated Icinga DB instance that connects to it.
 redis:
-  address: localhost:6380
+  # Redis host or absolute Unix socket path.
+  host: localhost
+
+  # Redis port. The Redis server provided by the icingadb-redis package listens on port '6380'.
+  # If not specified, the standard Redis port '6379' is used instead.
+  port: 6380
 
 logging:
   # Default logging level. Can be set to 'fatal', 'error', 'warn', 'info' or 'debug'.
@@ -27,12 +37,28 @@ logging:
 
   # Map of component-logging level pairs to define a different log level than the default value for each component.
   options:
+#    config-sync:
 #    database:
-#    redis:
+#    dump-signals:
 #    heartbeat:
 #    high-availability:
-#    config-sync:
 #    history-sync:
-#    runtime-updates:
 #    overdue-sync:
-#    dump-signals:
+#    redis:
+#    retention:
+#    runtime-updates:
+
+retention:
+  # Number of days to retain full historical data. By default, historical data is retained forever.
+#  history-days:
+  # Number of days to retain historical data for SLA reporting. By default, it is retained forever.
+#  sla-days:
+  # Map of history category to number of days to retain its data in order to
+  # enable retention only for specific categories or to override the number that has been configured in days.
+  options:
+#    acknowledgement:
+#    comment:
+#    downtime:
+#    flapping:
+#    notification:
+#    state:
