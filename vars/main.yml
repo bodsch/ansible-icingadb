@@ -35,4 +35,15 @@ icingadb_defaults_logging:
     overdue_sync: fatal
     dump_signals: fatal
 
+icingadb_defaults_retention:
+  history_days: "10d"
+  sla_days: ""
+  options:
+    acknowledgement: ""
+    comment: ""
+    downtime: ""
+    flapping: ""
+    notification: ""
+    state: ""
+
 ...

@@ -107,6 +107,53 @@ icingadb_logging:
 ```
 
 
+
+### `icingadb_retention`
+
+By default, no historical data is deleted, which means that the longer the data is retained, the more disk
+space is required to store it. History retention is an optional feature that allows you to limit the number
+of days that historical data is available for each history category. There are separate options for the full
+history tables used to display history information in the web interface and SLA tables which store the
+minimal information required for SLA reporting, allowing to keep this information for longer with a smaller
+storage footprint.
+
+#### `history-days`
+
+**Optional**
+
+Number of days to retain historical data for all history categories.
+
+Use options in order to enable retention only for specific categories or to override the retention days configured here.
+
+
+#### `sla-days
+
+**Optional**
+
+Number of days to retain historical data for SLA reporting.
+
+#### `options`
+
+**Optional**
+
+Map of history category to number of days to retain its data.
+
+Available categories are acknowledgement, comment, downtime, flapping, notification, sla and state.
+
+
+```yaml
+icingadb_retention:
+  history_days: ""
+  sla_days: ""
+  options:
+    acknowledgement: ""
+    comment: ""
+    downtime: ""
+    flapping: ""
+    notification: ""
+    state: ""
+```
+
 ## Contribution
 
 Please read [Contribution](CONTRIBUTING.md)

@@ -1,6 +1,7 @@
 #jinja2: trim_blocks: True, lstrip_blocks: True
-# {{ ansible_managed }}
 {% set _valid_loglevel = ['fatal', 'error', 'warn', 'info', 'debug'] %}
+---
+# {{ ansible_managed }}
 
 database:
   host: {{ icingadb_database.host }}
@@ -10,7 +11,6 @@ database:
   password: {{ icingadb_database.password }}
 
 redis:
-  host: {{ icingadb_redis.host | default('localhost' }}
   address: {{ icingadb_redis.address }}
 
 logging:
@@ -76,38 +76,38 @@ logging:
 
 retention:
 {% if icingadb_retention.history_days is defined and
-      icingadb_retention.history_days | length > 0 %}
-    history-days: {{ icingadb_retention.history_days }}
+      icingadb_retention.history_days | default('') | length > 0 %}
+  history-days: {{ icingadb_retention.history_days }}
 {% endif %}
 {% if icingadb_retention.sla_days is defined and
-      icingadb_retention.sla_days | length > 0 %}
-    sla-days: {{ icingadb_retention.sla_days }}
+      icingadb_retention.sla_days | default('') | length > 0 %}
+  sla-days: {{ icingadb_retention.sla_days }}
 {% endif %}
 {% if icingadb_retention.options is defined and
-      icingadb_retention.options | length > 0 %}
+      icingadb_retention.options | default('') | length > 0 %}
   options:
   {% if icingadb_retention.options.acknowledgement is defined and
-        icingadb_retention.options.acknowledgement | length > 0 %}
+        icingadb_retention.options.acknowledgement | default('') | length > 0 %}
     acknowledgement: {{ icingadb_retention.options.acknowledgement }}
   {% endif %}
   {% if icingadb_retention.options.comment is defined and
-        icingadb_retention.options.comment | length > 0 %}
+        icingadb_retention.options.comment | default('') | length > 0 %}
     comment: {{ icingadb_retention.options.comment }}
   {% endif %}
   {% if icingadb_retention.options.downtime is defined and
-        icingadb_retention.options.downtime | length > 0 %}
+        icingadb_retention.options.downtime | default('') | length > 0 %}
     downtime: {{ icingadb_retention.options.downtime }}
   {% endif %}
   {% if icingadb_retention.options.flapping is defined and
-        icingadb_retention.options.flapping | length > 0 %}
+        icingadb_retention.options.flapping | default('') | length > 0 %}
     flapping: {{ icingadb_retention.options.flapping }}
   {% endif %}
   {% if icingadb_retention.options.notification is defined and
-        icingadb_retention.options.notification | length > 0 %}
+        icingadb_retention.options.notification | default('') | length > 0 %}
     notification: {{ icingadb_retention.options.notification }}
   {% endif %}
   {% if icingadb_retention.options.state is defined and
-        icingadb_retention.options.state | length > 0 %}
+        icingadb_retention.options.state | default('') | length > 0 %}
     state: {{ icingadb_retention.options.state }}
   {% endif %}
 {% endif %}

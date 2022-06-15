@@ -24,4 +24,12 @@ icingadb_logging:
     overdue-sync: fatal
     dump-signals: fatal
 
+icingadb_retention:
+  history_days: "90d"
+  sla_days: "90d"
+  options:
+    acknowledgement: "10d"
+    comment: "10d"
+    downtime: "5d"
+
 ...

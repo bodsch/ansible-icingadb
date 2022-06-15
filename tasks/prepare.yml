@@ -152,6 +152,10 @@
     icingadb_logging: "{{ icingadb_defaults_logging |
       combine( icingadb_logging, recursive=True ) }}"
 
+- name: merge icingadb retention configuration between defaults and custom
+  set_fact:
+    icingadb_retention: "{{ icingadb_defaults_retention |
+      combine( icingadb_retention, recursive=True ) }}"
 
 # - name: create local temp directory
 #   become: false
