@@ -116,12 +116,12 @@
         key: https://packages.icinga.com/icinga.key
         state: present
 
-    - name: install icinga testing repository
+    - name: install icinga release repository
       yum_repository:
-        name: icinga-testing-build
+        name: icinga-stable-release
         state: present
-        description: ICINGA (testing builds for epel)
-        baseurl: https://packages.icinga.com/epel/$releasever/testing/
+        description: ICINGA
+        baseurl: https://packages.icinga.com/epel/$releasever/release/
         gpgkey: file:///etc/pki/rpm-gpg/RPM-GPG-KEY-ICINGA
         gpgcheck: 1
         enabled: 1

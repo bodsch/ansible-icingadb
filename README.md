@@ -24,10 +24,6 @@ This role will fully configure and install [icingadb](https://icinga.com/docs/ic
 * Debian based
     - Debian 10 / 11
     - Ubuntu 20.04
-* RedHat based
-    - Alma Linux 8
-    - Rocky Linux 8
-    - OracleLinux 8
 
 ## usage
 
@@ -55,8 +51,9 @@ icingadb_database:
 
 ```yaml
 
-icingadb_defaults_redis:
-  address: 127.0.0.1:6379
+icingadb_redis:
+  host: 127.0.0.1
+  port: 6379
 ```
 
 ### `icingadb_logging`
@@ -117,6 +114,8 @@ history tables used to display history information in the web interface and SLA 
 minimal information required for SLA reporting, allowing to keep this information for longer with a smaller
 storage footprint.
 
+All parameters are given in days, e.g. `120`
+
 #### `history-days`
 
 **Optional**
@@ -130,15 +129,15 @@ Use options in order to enable retention only for specific categories or to over
 
 **Optional**
 
-Number of days to retain historical data for SLA reporting.
+*Number of days* to retain historical data for SLA reporting.
 
 #### `options`
 
 **Optional**
 
-Map of history category to number of days to retain its data.
+Map of history category to *number of days* to retain its data.
 
-Available categories are acknowledgement, comment, downtime, flapping, notification, sla and state.
+Available categories are `acknowledgement`, `comment`, `downtime`, `flapping`, `notification` and `state`.
 
 
 ```yaml

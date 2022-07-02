@@ -8,28 +8,29 @@ icingadb_database:
   password: icingadb
 
 icingadb_redis:
-  address: "127.0.0.1:{{ redis_network_port }}"
+  host: 127.0.0.1
+  port: "{{ redis_network_port }}"
 
 icingadb_logging:
   level: debug
-  interval: "20s"
-  options:
-    database: debug
-    redis: debug
-    heartbeat: fatal
-    high-availability: fatal
-    config-sync: fatal
-    history-sync: fatal
-    runtime-updates: fatal
-    overdue-sync: fatal
-    dump-signals: fatal
+  interval: "3s"
+  # options:
+  #   database: debug
+  #   redis: debug
+  #   heartbeat: debug
+  #   high-availability: debug
+  #   config-sync: debug
+  #   history-sync: debug
+  #   runtime-updates: debug
+  #   overdue-sync: debug
+  #   dump-signals: debug
 
 icingadb_retention:
-  history_days: "90d"
-  sla_days: "90d"
+  history_days: 90
+  sla_days: 90
   options:
-    acknowledgement: "10d"
-    comment: "10d"
-    downtime: "5d"
+    acknowledgement: 10
+    comment: 10
+    downtime: 5
 
 ...

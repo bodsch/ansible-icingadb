@@ -22,5 +22,9 @@ mariadb_config_mysqld:
   performance_schema: 1
   expire_logs_days: 2
   max_connections: 20
+  # fixes
+  # 'You do not have the SUPER privilege and binary logging is enabled
+  #  (you *might* want to use the less safe log_bin_trust_function_creators variable)'
+  log_bin_trust_function_creators: "1"
 
 ...

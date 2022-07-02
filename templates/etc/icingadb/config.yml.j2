@@ -11,7 +11,8 @@ database:
   password: {{ icingadb_database.password }}
 
 redis:
-  address: {{ icingadb_redis.address }}
+  host: {{ icingadb_redis.host }}
+  port: {{ icingadb_redis.port | default('6379') }}
 
 logging:
 {% if icingadb_logging.level in _valid_loglevel %}
@@ -76,38 +77,38 @@ logging:
 
 retention:
 {% if icingadb_retention.history_days is defined and
-      icingadb_retention.history_days | default('') | length > 0 %}
+      icingadb_retention.history_days | default('0') | int > 0 %}
   history-days: {{ icingadb_retention.history_days }}
 {% endif %}
 {% if icingadb_retention.sla_days is defined and
-      icingadb_retention.sla_days | default('') | length > 0 %}
+      icingadb_retention.sla_days | default('0') | int > 0 %}
   sla-days: {{ icingadb_retention.sla_days }}
 {% endif %}
 {% if icingadb_retention.options is defined and
-      icingadb_retention.options | default('') | length > 0 %}
+      icingadb_retention.options | count > 0 %}
   options:
   {% if icingadb_retention.options.acknowledgement is defined and
-        icingadb_retention.options.acknowledgement | default('') | length > 0 %}
+        icingadb_retention.options.acknowledgement | default('0') | int > 0 %}
     acknowledgement: {{ icingadb_retention.options.acknowledgement }}
   {% endif %}
   {% if icingadb_retention.options.comment is defined and
-        icingadb_retention.options.comment | default('') | length > 0 %}
+        icingadb_retention.options.comment | default('0') | int > 0 %}
     comment: {{ icingadb_retention.options.comment }}
   {% endif %}
   {% if icingadb_retention.options.downtime is defined and
-        icingadb_retention.options.downtime | default('') | length > 0 %}
+        icingadb_retention.options.downtime | default('0') | int > 0 %}
     downtime: {{ icingadb_retention.options.downtime }}
   {% endif %}
   {% if icingadb_retention.options.flapping is defined and
-        icingadb_retention.options.flapping | default('') | length > 0 %}
+        icingadb_retention.options.flapping | default('0') | int > 0 %}
     flapping: {{ icingadb_retention.options.flapping }}
   {% endif %}
   {% if icingadb_retention.options.notification is defined and
-        icingadb_retention.options.notification | default('') | length > 0 %}
+        icingadb_retention.options.notification | default('0') | int > 0 %}
     notification: {{ icingadb_retention.options.notification }}
   {% endif %}
   {% if icingadb_retention.options.state is defined and
-        icingadb_retention.options.state | default('') | length > 0 %}
+        icingadb_retention.options.state | default('0') | int > 0 %}
     state: {{ icingadb_retention.options.state }}
   {% endif %}
 {% endif %}
