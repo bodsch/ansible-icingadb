@@ -29,13 +29,13 @@
   block:
     - name: create conf.d/icingadb
       template:
-        src: etc/openrc/conf.d/icingadb.j2
+        src: init/openrc/conf.d/icingadb.j2
         dest: /etc/conf.d/icingadb
         mode: 0644
 
     - name: create init.d/icingadb
       template:
-        src: etc/openrc/init.d/icingadb.j2
+        src: init/openrc/init.d/icingadb.j2
         dest: /etc/init.d/icingadb
         mode: 0755
   when:
