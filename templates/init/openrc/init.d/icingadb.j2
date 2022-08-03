@@ -1,0 +1,51 @@
+#!/usr/bin/openrc-run
+# Copyright 1999-2017 Gentoo Foundation
+# Distributed under the terms of the GNU General Public License v2
+
+depend() {
+  need net
+  after network
+  after redis
+}
+
+start() {
+  ebegin "Starting icingadb"
+
+  start-stop-daemon \
+    --start \
+    --background \
+    --make-pidfile \
+    --pidfile /run/icingadb.pid \
+    --user ${ICINGADB_USER}:${ICINGADB_GROUP} \
+    --exec /usr/sbin/icingadb -- \
+    --config /etc/icingadb/config.yml
+
+  eend $?
+}
+
+stop() {
+  ebegin "Stopping grafana server"
+
+  start-stop-daemon \
+    --stop \
+    --pidfile /run/icingadb.pid \
+    --user "${ICINGADB_USER}" \
+    --retry "SIGTERM/15 SIGKILL/30"
+
+  eend $?
+}
+
+reload() {
+  ebegin "Reloading icingadb"
+
+  start-stop-daemon \
+    --signal HUP \
+    --pidfile /run/icingadb.pid
+
+  local retval=$?
+  if [ $retval -ne 0 ]; then
+      ewarn "Error reloading icingadb."
+  fi
+
+  eend $retval
+}

@@ -11,6 +11,8 @@
         - "{{ ansible_distribution | lower }}-{{ ansible_distribution_major_version }}.yml"
         # eg. archlinux-systemd / archlinux-openrc
         - "{{ ansible_distribution | lower }}-{{ ansible_service_mgr | lower }}.yml"
+        # eg. artixlinux
+        - "{{ ansible_distribution | lower | replace(' ', '') }}.yml"
         # eg. debian / ubuntu / centos / oraclelinux
         - "{{ ansible_distribution | lower }}.yml"
         # eg. redhat / debian
@@ -40,7 +42,8 @@
 # ----------------------------------------------------------------------------------
 # arch-linux based
 #
-- block:
+- name: archlinux based
+  block:
     - name: install build tools
       package:
         name:
@@ -69,15 +72,14 @@
       become_user: aur_builder
       command: |
         gpg --recv-keys C6E319C334410682
-
-      #F51A91A5EE001AA5D77D53C4C6E319C334410682
-
   when:
-    - ansible_os_family | lower == 'archlinux'
+    - ansible_os_family | lower == 'archlinux' or
+      ansible_distribution | lower | replace(' ', '') == 'artixlinux'
 
 # debian based
 #
-- block:
+- name: debian based
+  block:
     - name: add icinga GPG key
       apt_key:
         id: F51A91A5EE001AA5D77D53C4C6E319C334410682
@@ -93,7 +95,8 @@
 
 # redhat based
 #
-- block:
+- name: redhat based
+  block:
     - name: import EPEL GPG key
       rpm_key:
         key: https://archive.fedoraproject.org/pub/epel/RPM-GPG-KEY-EPEL-{{ ansible_distribution_major_version }}
@@ -128,6 +131,7 @@
         metadata_expire: 1d
   when:
     - ansible_os_family | lower == 'redhat'
+
 # ----------------------------------------------------------------------------------
 
 - name: get latest system information
@@ -137,25 +141,12 @@
   package:
     update_cache: true
 
-- name: merge icingadb database configuration between defaults and custom
+- name: merge icingadb configuration between defaults and custom
   set_fact:
-    icingadb_database: "{{ icingadb_defaults_database |
-      combine( icingadb_database, recursive=True ) }}"
-
-- name: merge icingadb redis configuration between defaults and custom
-  set_fact:
-    icingadb_redis: "{{ icingadb_defaults_redis |
-      combine( icingadb_redis, recursive=True ) }}"
-
-- name: merge icingadb logging configuration between defaults and custom
-  set_fact:
-    icingadb_logging: "{{ icingadb_defaults_logging |
-      combine( icingadb_logging, recursive=True ) }}"
-
-- name: merge icingadb retention configuration between defaults and custom
-  set_fact:
-    icingadb_retention: "{{ icingadb_defaults_retention |
-      combine( icingadb_retention, recursive=True ) }}"
+    icingadb_database: "{{ icingadb_defaults_database | combine( icingadb_database, recursive=True ) }}"
+    icingadb_redis: "{{ icingadb_defaults_redis | combine( icingadb_redis, recursive=True ) }}"
+    icingadb_logging: "{{ icingadb_defaults_logging | combine( icingadb_logging, recursive=True ) }}"
+    icingadb_retention: "{{ icingadb_defaults_retention | combine( icingadb_retention, recursive=True ) }}"
 
 # - name: create local temp directory
 #   become: false

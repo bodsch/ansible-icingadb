@@ -12,7 +12,8 @@
       set_fact:
         icingadb_installed: "{{ icingadb_binary_file.stat.exists }}"
 
-- block:
+- name: archlinux
+  block:
     - name: install icingadb package via aur
       become: true
       become_user: aur_builder
@@ -21,9 +22,27 @@
         name: icingadb
         repository: "{{ icingadb_repo_archlinux }}"
   when:
-    - ansible_os_family | lower == 'archlinux'
+    - ansible_os_family | lower == 'archlinux' or
+      ansible_distribution | lower | replace(' ', '') == 'artixlinux'
 
-- block:
+- name: openrc
+  block:
+    - name: create conf.d/icingadb
+      template:
+        src: etc/openrc/conf.d/icingadb.j2
+        dest: /etc/conf.d/icingadb
+        mode: 0644
+
+    - name: create init.d/icingadb
+      template:
+        src: etc/openrc/init.d/icingadb.j2
+        dest: /etc/init.d/icingadb
+        mode: 0755
+  when:
+    - ansible_service_mgr == 'openrc'
+
+- name: debian
+  block:
     - name: create policy-rc.d
       copy:
         dest: /usr/sbin/policy-rc.d
@@ -47,7 +66,8 @@
         state: absent
   when:
     - not icingadb_installed
-    - ansible_os_family | lower != 'archlinux'
+    - not ansible_os_family | lower == 'archlinux' or
+      not ansible_distribution | lower | replace(' ', '') == 'artixlinux'
 
 - name: re-read ansible facts
   setup:
