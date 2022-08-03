@@ -24,7 +24,7 @@ start() {
 }
 
 stop() {
-  ebegin "Stopping grafana server"
+  ebegin "Stopping icingadb"
 
   start-stop-daemon \
     --stop \
@@ -33,19 +33,4 @@ stop() {
     --retry "SIGTERM/15 SIGKILL/30"
 
   eend $?
-}
-
-reload() {
-  ebegin "Reloading icingadb"
-
-  start-stop-daemon \
-    --signal HUP \
-    --pidfile /run/icingadb.pid
-
-  local retval=$?
-  if [ $retval -ne 0 ]; then
-      ewarn "Error reloading icingadb."
-  fi
-
-  eend $retval
 }
