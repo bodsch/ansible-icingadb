@@ -11,6 +11,17 @@
   notify:
     - restart icingadb
 
+- name: create directory for logfiles
+  file:
+    state: directory
+    owner: "{{ icingadb_user }}"
+    group: "{{ icingadb_group }}"
+    mode: 0750
+    path: /var/log/icingadb
+  when:
+    - icingadb_logging.output is defined
+    - icingadb_logging.output == "console"
+
 - name: ensure table_schema is created
   mysql_schema:
     login_host: "{{ icingadb_database.host }}"
