@@ -1,27 +1,23 @@
 ---
 
 - name: snapd
-  src: https://github.com/bodsch/ansible-snapd.git
-  scm: git
+  src: bodsch.snapd
   version: 1.1.2
 
 - name: apparmor
-  src: https://github.com/bodsch/ansible-apparmor.git
-  scm: git
+  src: bodsch.apparmor
   version: 1.0.1
 
 - name: monitoring-tools
-  src: https://github.com/bodsch/ansible-monitoring-plugins.git
+  src: bodsch.monitoring_plugins
   version: 1.4.0
 
 - name: mariadb
-  src: https://github.com/bodsch/ansible-mariadb.git
-  scm: git
+  src: bodsch.mariadb
   version: 2.2.13
 
 - name: redis
-  src: https://github.com/bodsch/ansible-redis.git
-  scm: git
+  src: bodsch.redis
   version: 1.1.1
 
 ...
