@@ -100,11 +100,18 @@ def get_vars(host):
 
 
 def test_package(host, get_vars):
+    distribution = host.system_info.distribution
+    release = host.system_info.release
+
+    print(f"distribution: {distribution}")
+    print(f"release     : {release}")
+
     packages = get_vars.get("icingadb_packages")
 
-    for pack in packages:
-        p = host.package(pack)
-        assert p.is_installed
+    if not distribution == "artix":
+        for pack in packages:
+            p = host.package(pack)
+            assert p.is_installed
 
 
 def test_user(host):

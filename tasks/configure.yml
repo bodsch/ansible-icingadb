@@ -18,9 +18,6 @@
     group: "{{ icingadb_group }}"
     mode: 0750
     path: /var/log/icingadb
-  when:
-    - icingadb_logging.output is defined
-    - icingadb_logging.output == "console"
 
 - name: ensure table_schema is created
   mysql_schema:

@@ -21,6 +21,7 @@
         state: present
         name: icingadb
         repository: "{{ icingadb_repo_archlinux }}"
+
   when:
     - ansible_os_family | lower == 'archlinux' or
       ansible_distribution | lower | replace(' ', '') == 'artixlinux'
