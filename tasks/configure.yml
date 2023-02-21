@@ -1,7 +1,7 @@
 ---
 
 - name: create icingadb configuration
-  template:
+  ansible.builtin.template:
     src: etc/icingadb/config.yml.j2
     dest: /etc/icingadb/config.yml
     owner: "{{ icingadb_user }}"
@@ -12,7 +12,7 @@
     - restart icingadb
 
 - name: create directory for logfiles
-  file:
+  ansible.builtin.file:
     state: directory
     owner: "{{ icingadb_user }}"
     group: "{{ icingadb_group }}"
@@ -34,9 +34,14 @@
     - icingadb_database.password is defined
     - icingadb_database.database is defined
 
-- block:
+- name: database
+  when:
+    - mysql_icingawebdb_schema is defined
+    - mysql_icingawebdb_schema.exists is defined
+    - not mysql_icingawebdb_schema.exists
+  block:
     - name: import database schema
-      mysql_db:
+      community.mysql.mysql_db:
         state: import
         login_host: "{{ icingadb_database.host }}"
         login_user: "{{ icingadb_database.user }}"
@@ -48,16 +53,12 @@
       register: icingawebdb_database_schema
 
     - name: error
-      fail:
+      ansible.builtin.fail:
         msg:
           - "ERROR: {{ icingawebdb_database_schema }}"
       when:
         - mysql_icingawebdb_schema is defined
         - mysql_icingawebdb_schema.failed is defined
         - mysql_icingawebdb_schema.failed
-  when:
-    - mysql_icingawebdb_schema is defined
-    - mysql_icingawebdb_schema.exists is defined
-    - not mysql_icingawebdb_schema.exists
 
 ...

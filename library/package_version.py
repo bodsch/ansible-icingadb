@@ -173,15 +173,15 @@ class PackageVersion(object):
         """
         package_mgr = self.module.get_bin_path('dnf', False)
 
-        if(not package_mgr):
+        if (not package_mgr):
             package_mgr = self.module.get_bin_path('yum', True)
 
-        if(not package_mgr):
+        if (not package_mgr):
             return True, "", "no valid package manager (yum or dnf) found"
 
         package_version = self.package_version
 
-        if(package_version):
+        if (package_version):
             package_version = package_version.replace('.', '')
 
         args = []
@@ -265,7 +265,7 @@ class PackageVersion(object):
             pattern = re.compile(
                 # r'^(?P<repository>core|extra|community|world|local)\/{}[0-9\s]*(?P<version>\d\.\d).*-.*'.format(self.package_name),
                 # r'^(?P<repository>core|extra|community|world|local)\/{} (?P<version>\d+(\.\d+){{0,2}}(\.\*)?)-.*'.format(self.package_name),
-                r'^(?P<repository>core|extra|community|world|local)\/{}([0-9])? (?P<version>\d+(\.\d+){{0,2}}(\.\*)?).*-.*'.format(self.package_name),                
+                r'^(?P<repository>core|extra|community|world|local)\/{}([0-9])? (?P<version>\d+(\.\d+){{0,2}}(\.\*)?).*-.*'.format(self.package_name),
                 re.MULTILINE
             )
 

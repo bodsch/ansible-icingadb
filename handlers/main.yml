@@ -1,7 +1,15 @@
 ---
 
+- name: daemon-reload
+  become: true
+  ansible.builtin.systemd:
+    daemon_reload: true
+    force: true
+  when:
+    - ansible_service_mgr | lower == "systemd"
+
 - name: restart icingadb
-  service:
+  ansible.builtin.service:
     name: icingadb
     state: restarted
 

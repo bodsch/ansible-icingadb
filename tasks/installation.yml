@@ -2,17 +2,19 @@
 
 - name: detect installed icingadb
   block:
-
     - name: detect if icingadb exists
-      stat:
+      ansible.builtin.stat:
         path: /usr/sbin/icingadb
       register: icingadb_binary_file
 
     - name: define icingadb_installed
-      set_fact:
+      ansible.builtin.set_fact:
         icingadb_installed: "{{ icingadb_binary_file.stat.exists }}"
 
 - name: archlinux
+  when:
+    - ansible_os_family | lower == 'archlinux' or
+      ansible_distribution | lower | replace(' ', '') == 'artixlinux'
   block:
     - name: install icingadb package via aur
       become: true
@@ -22,30 +24,30 @@
         name: icingadb
         repository: "{{ icingadb_repo_archlinux }}"
 
-  when:
-    - ansible_os_family | lower == 'archlinux' or
-      ansible_distribution | lower | replace(' ', '') == 'artixlinux'
-
 - name: openrc
+  when:
+    - ansible_service_mgr == 'openrc'
   block:
     - name: create conf.d/icingadb
-      template:
+      ansible.builtin.template:
         src: init/openrc/conf.d/icingadb.j2
         dest: /etc/conf.d/icingadb
         mode: 0644
 
     - name: create init.d/icingadb
-      template:
+      ansible.builtin.template:
         src: init/openrc/init.d/icingadb.j2
         dest: /etc/init.d/icingadb
         mode: 0755
-  when:
-    - ansible_service_mgr == 'openrc'
 
 - name: debian
+  when:
+    - not icingadb_installed
+    - not ansible_os_family | lower == 'archlinux' or
+      not ansible_distribution | lower | replace(' ', '') == 'artixlinux'
   block:
     - name: create policy-rc.d
-      copy:
+      ansible.builtin.copy:
         dest: /usr/sbin/policy-rc.d
         content: |
           #!/bin/sh
@@ -53,24 +55,20 @@
         mode: 0755
 
     - name: install icingadb packages
-      package:
+      ansible.builtin.package:
         name: "{{ icingadb_packages }}"
         state: present
       register: icingadb_installer
 
     - name: do facts module to get latest information
-      setup:
+      ansible.builtin.setup:
 
     - name: remove policy-rc.d
-      file:
+      ansible.builtin.file:
         path: /usr/sbin/policy-rc.d
         state: absent
-  when:
-    - not icingadb_installed
-    - not ansible_os_family | lower == 'archlinux' or
-      not ansible_distribution | lower | replace(' ', '') == 'artixlinux'
 
 - name: re-read ansible facts
-  setup:
+  ansible.builtin.setup:
 
 ...
