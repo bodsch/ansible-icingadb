@@ -6,4 +6,9 @@ icingadb_dependencies:
   - mariadb-libs
   - iproute2
 
+icingadb_aur_dependencies:
+  - base-devel
+  - fakeroot
+  - git
+
 ...

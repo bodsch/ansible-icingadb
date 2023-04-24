@@ -32,7 +32,7 @@
           - "ansible version      : {{ ansible_version.full }}"
           - "python version       : {{ ansible_python.version.major }}.{{ ansible_python.version.minor }}"
 
-- name: prepare container
+- name: prepare database
   hosts: database
   gather_facts: true
 

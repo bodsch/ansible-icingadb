@@ -20,12 +20,12 @@
     path: /var/log/icingadb
 
 - name: ensure table_schema is created
-  mysql_schema:
+  bodsch.core.mysql_schema:
     login_host: "{{ icingadb_database.host }}"
     login_user: "{{ icingadb_database.user }}"
     login_password: "{{ icingadb_database.password }}"
     table_schema: "{{ icingadb_database.database }}"
-  # no_log: true
+  no_log: true
   register: mysql_icingawebdb_schema
   when:
     - icingadb_database is defined
@@ -49,7 +49,7 @@
         config_file: ''
         name: "{{ icingadb_database.database }}"
         target: '{{ icingadb_install_dir }}/schema/mysql/schema.sql'
-      # no_log: true
+      no_log: true
       register: icingawebdb_database_schema
 
     - name: error

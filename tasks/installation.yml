@@ -19,7 +19,7 @@
     - name: install icingadb package via aur
       become: true
       become_user: aur_builder
-      aur:
+      bodsch.core.aur:
         state: present
         name: icingadb
         repository: "{{ icingadb_repo_archlinux }}"

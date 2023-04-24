@@ -63,10 +63,7 @@
   block:
     - name: install build tools
       ansible.builtin.package:
-        name:
-          - base-devel
-          - fakeroot
-          # - cmake
+        name: "{{ icingadb_aur_dependencies }}"
         state: present
 
     - name: create sudo rules for aur_builder
@@ -165,13 +162,5 @@
     icingadb_redis: "{{ icingadb_defaults_redis | combine(icingadb_redis, recursive=True) }}"
     icingadb_logging: "{{ icingadb_defaults_logging | combine(icingadb_logging, recursive=True) }}"
     icingadb_retention: "{{ icingadb_defaults_retention | combine(icingadb_retention, recursive=True) }}"
-
-# - name: create local temp directory
-#   become: false
-#   delegate_to: 127.0.0.1
-#   file:
-#     path: "{{ icingadb_local_tmp_directory }}"
-#     state: directory
-#     mode: 0755
 
 ...
